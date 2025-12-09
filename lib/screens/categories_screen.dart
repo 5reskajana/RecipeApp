@@ -4,6 +4,7 @@ import '../services/api_service.dart';
 import '../widgets/category_card.dart';
 import 'meals_screen.dart';
 import 'meal_detail_screen.dart';
+import 'favorites_screen.dart'; // import the favorites screen
 
 class CategoriesScreen extends StatefulWidget {
   const CategoriesScreen({super.key});
@@ -21,6 +22,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   @override
   void initState() {
     super.initState();
+
     _future = ApiService.fetchCategories();
     _future.then((value) {
       setState(() {
@@ -57,7 +59,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
     return Scaffold(
       backgroundColor: const Color(0xFFF3FFF5),
-
       appBar: AppBar(
         backgroundColor: green2,
         elevation: 2,
@@ -68,7 +69,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             fontWeight: FontWeight.bold,
           ),
         ),
-
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 12),
@@ -79,21 +79,19 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 height: 40,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.white, // 🔥 white background
-
+                  color: Colors.white,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.green.withOpacity(0.4), // soft green glow
+                      color: green1.withOpacity(0.4),
                       blurRadius: 8,
                       spreadRadius: 1,
                       offset: const Offset(0, 2),
                     )
                   ],
                 ),
-
                 child: const Icon(
                   Icons.shuffle,
-                  color: Color(0xFF27AE60), // 🌿 dark green icon
+                  color: Color(0xFF27AE60),
                   size: 22,
                 ),
               ),
@@ -101,9 +99,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           ),
         ],
       ),
-
-
-        body: _loading
+      body: _loading
           ? const Center(child: CircularProgressIndicator())
           : Column(
         children: [
@@ -128,7 +124,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               onChanged: _search,
             ),
           ),
-
           Expanded(
             child: RefreshIndicator(
               color: green2,
@@ -141,17 +136,40 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 });
               },
               child: ListView.builder(
-                itemCount: _filtered.length,
+                itemCount: _filtered.length + 1, // +1 for Favorites
                 itemBuilder: (context, index) {
-                  final cat = _filtered[index];
+                  if (index == 0) {
+                    // Favorites card at top
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      child: Card(
+                        color: Colors.amber[100],
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        child: ListTile(
+                          leading: const Icon(Icons.favorite, color: Colors.red),
+                          title: const Text(
+                            "Favorites",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (_) => FavoritesScreen()),
+                            );
+                          },
+                        ),
+                      ),
+                    );
+                  }
+
+                  final cat = _filtered[index - 1]; // adjust for favorites
                   return CategoryCard(
                     category: cat,
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) =>
-                              MealsScreen(category: cat.strCategory),
+                          builder: (_) => MealsScreen(category: cat.strCategory),
                         ),
                       );
                     },

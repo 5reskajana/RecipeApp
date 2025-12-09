@@ -1,0 +1,36 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "recipeapp-2da46",
+          "appId": "1:405475853486:android:fa53298f0ac7f14050d93f",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "recipeapp-2da46",
+          "configurations": {
+            "android": "1:405475853486:android:fa53298f0ac7f14050d93f",
+            "ios": "1:405475853486:ios:b931aa2b0d28319350d93f"
+          }
+        }
+      }
+    }
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "disallowLegacyRuntimeConfig": true,
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ]
+    }
+  ]
+}

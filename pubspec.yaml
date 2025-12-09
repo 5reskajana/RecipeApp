@@ -38,6 +38,13 @@ dependencies:
   cached_network_image: ^3.2.3
   url_launcher: ^6.1.10
 
+  firebase_core: ^4.2.1
+  cloud_firestore: ^6.1.0
+
+  firebase_messaging: ^16.0.4
+  flutter_local_notifications: ^17.1.2
+  timezone: ^0.9.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -37,17 +37,12 @@ class _MealsScreenState extends State<MealsScreen> {
     }
   }
 
-  /// ---------------------------
-  /// RANDOM FROM THIS CATEGORY
-  /// ---------------------------
   Future<void> _openRandom() async {
     if (_items.isEmpty) return;
 
-    // pick random from available items
     _items.shuffle();
     final randomMeal = _items.first;
 
-    // fetch full detail
     final detail = await ApiService.lookupMeal(randomMeal.idMeal);
 
     if (detail != null && mounted) {
